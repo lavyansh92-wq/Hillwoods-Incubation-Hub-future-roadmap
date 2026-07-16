@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hillwoods Incubation Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6FB;
+    --paper-raised:#FFFFFF;
+    --ink:#12142B;
+    --ink-soft:#4B4E68;
+    --ink-faint:#8A8DA8;
+    --line:#DEE2F0;
+    --blue:#3652FF;
+    --blue-deep:#1E33C9;
+    --blue-wash:#E8ECFF;
+    --yellow:#FFC93C;
+    --yellow-wash:#FFF4D6;
+    --teal:#12805F;
+    --teal-wash:#E1F5EE;
+    --violet:#6D4FE0;
+    --violet-wash:#EDE9FE;
+    --coral:#D6435A;
+    --coral-wash:#FCE7EA;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace; letter-spacing:.04em;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(244,246,251,.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1180px; margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .brand{display:flex; flex-direction:column; line-height:1.15;}
+  .brand-eco{font-size:11px; color:var(--ink-faint); letter-spacing:.12em; text-transform:uppercase;}
+  .brand-name{font-weight:600; font-size:17px;}
+  .brand-name .accent{color:var(--blue);}
+  .nav-actions{display:flex; gap:10px; align-items:center;}
+  .nav-link{
+    font-size:14px; font-weight:500; color:var(--ink-soft);
+    padding:9px 14px; border-radius:100px; cursor:pointer; border:none; background:none;
+  }
+  .nav-link:hover{color:var(--ink); background:var(--paper-raised);}
+  @media (max-width:640px){ .nav-link.hide-mobile{display:none;} }
+
+  button{font-family:inherit; cursor:pointer;}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-weight:600; font-size:14.5px; border-radius:100px;
+    padding:13px 24px; border:1.5px solid transparent; transition:transform .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--ink); color:#fff;}
+  .btn-primary:hover{background:var(--blue-deep);}
+  .btn-secondary{background:transparent; color:var(--ink); border-color:var(--line);}
+  .btn-secondary:hover{border-color:var(--ink);}
+  .btn-sm{padding:9px 16px; font-size:13.5px;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:88px 0 64px; position:relative; overflow:hidden;}
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; font-weight:600; color:var(--blue-deep);
+    background:var(--blue-wash); padding:7px 14px; border-radius:100px; margin-bottom:28px;
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--blue);}
+  .hero h1{
+    font-size:clamp(40px,7vw,76px); line-height:0.98; font-weight:700; margin:0 0 20px;
+    letter-spacing:-.02em;
+  }
+  .hero h1 .line2{color:var(--blue);}
+  .hero-sub{
+    font-size:19px; color:var(--ink-soft); max-width:520px; line-height:1.55; margin:0 0 36px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px;}
+  .hero-strip{
+    display:flex; gap:0; border-top:1px solid var(--line); padding-top:24px; flex-wrap:wrap;
+  }
+  .hero-strip div{padding-right:36px; margin-right:36px; border-right:1px solid var(--line);}
+  .hero-strip div:last-child{border-right:none;}
+  .hero-strip .num{font-family:'Space Grotesk'; font-weight:700; font-size:26px; display:block;}
+  .hero-strip .lab{font-size:12.5px; color:var(--ink-faint); margin-top:2px;}
+
+  /* ---------- PATHWAY (signature element) ---------- */
+  .pathway-section{padding:80px 0 96px;}
+  .section-head{max-width:620px; margin-bottom:48px;}
+  .section-eyebrow{
+    font-size:12.5px; font-weight:600; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.1em; margin-bottom:12px;
+  }
+  .section-head h2{font-size:clamp(28px,4vw,40px); line-height:1.08; margin:0 0 14px; letter-spacing:-.01em;}
+  .section-head p{font-size:16.5px; color:var(--ink-soft); line-height:1.6; margin:0;}
+
+  .pathway-track{position:relative; margin-top:16px;}
+  .pathway-line{
+    position:absolute; top:23px; left:0; right:0; height:2px; background:var(--line); z-index:0;
+  }
+  .pathway-line-fill{position:absolute; top:0; left:0; height:100%; background:var(--blue);}
+  .pathway-nodes{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; position:relative; z-index:1;}
+  .pathway-node{display:flex; flex-direction:column; align-items:flex-start;}
+  .node-dot{
+    width:46px; height:46px; border-radius:50%; background:var(--paper-raised);
+    border:2px solid var(--line); display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk'; font-weight:700; font-size:14px; color:var(--ink-faint);
+    margin-bottom:16px;
+  }
+  .pathway-node.done .node-dot{background:var(--blue); border-color:var(--blue); color:#fff;}
+  .pathway-node.current .node-dot{border-color:var(--blue); color:var(--blue); background:var(--blue-wash);}
+  .pathway-node h3{font-size:16px; margin:0 0 6px; font-weight:600;}
+  .pathway-node p{font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.5;}
+  @media (max-width:820px){
+    .pathway-nodes{grid-template-columns:1fr; gap:28px;}
+    .pathway-line{display:none;}
+    .node-dot{margin-bottom:10px;}
+  }
+
+  /* ---------- BOARD ---------- */
+  .board-section{padding:80px 0 40px;}
+  .board-head{display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:40px; flex-wrap:wrap;}
+  .board-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px;
+  }
+  .idea-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:16px;
+    padding:24px; display:flex; flex-direction:column; gap:14px; cursor:pointer;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .idea-card:hover{border-color:var(--ink); transform:translateY(-3px);}
+  .card-top{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .cat-badge{
+    font-size:11.5px; font-weight:600; padding:5px 11px; border-radius:100px;
+  }
+  .stage-badge{
+    font-size:11px; font-weight:600; letter-spacing:.05em; color:var(--ink-faint);
+  }
+  .idea-card h3{font-size:20px; margin:0; font-weight:600;}
+  .idea-card .tagline{font-size:14.5px; color:var(--ink-soft); line-height:1.55; margin:0; flex-grow:1;}
+  .card-bottom{
+    display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid var(--line);
+  }
+  .builder-type{font-size:12.5px; color:var(--ink-faint);}
+  .view-build{font-size:13.5px; font-weight:600; color:var(--ink); display:flex; align-items:center; gap:6px;}
+  .demo-tag{
+    font-size:10px; font-weight:600; letter-spacing:.08em; color:var(--ink-faint);
+    border:1px solid var(--line); border-radius:5px; padding:2px 6px; text-transform:uppercase;
+  }
+
+  /* category color helpers */
+  .cat-blue{background:var(--blue-wash); color:var(--blue-deep);}
+  .cat-teal{background:var(--teal-wash); color:var(--teal);}
+  .cat-violet{background:var(--violet-wash); color:var(--violet);}
+  .cat-coral{background:var(--coral-wash); color:var(--coral);}
+  .cat-yellow{background:var(--yellow-wash); color:#8A6300;}
+
+  /* ---------- PHILOSOPHY ---------- */
+  .philosophy{padding:88px 0;}
+  .phil-card{
+    background:var(--ink); color:#fff; border-radius:24px; padding:56px;
+    display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center;
+  }
+  .phil-card h2{font-size:clamp(26px,3.6vw,36px); line-height:1.15; margin:0 0 18px; color:#fff;}
+  .phil-card p{font-size:15.5px; color:#B7BAD6; line-height:1.65; margin:0 0 14px;}
+  .roadmap-note{
+    font-size:13px; color:#8A8DC0; border-top:1px solid #2C2F52; padding-top:16px; margin-top:20px; line-height:1.6;
+  }
+  .phil-list{display:flex; flex-direction:column; gap:0;}
+  .phil-list-item{padding:18px 0; border-bottom:1px solid #2C2F52; display:flex; gap:14px; align-items:flex-start;}
+  .phil-list-item:last-child{border-bottom:none;}
+  .phil-list-item .n{font-family:'IBM Plex Mono'; color:#5D66B0; font-size:13px; padding-top:3px;}
+  .phil-list-item .t{font-size:14.5px; color:#D6D8EE; line-height:1.5;}
+  @media (max-width:820px){ .phil-card{grid-template-columns:1fr; padding:36px 28px;} }
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:48px 0 60px; border-top:1px solid var(--line); margin-top:24px;}
+  .footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  .footer-left{font-size:13px; color:var(--ink-faint);}
+  .footer-right{font-size:13px; color:var(--ink-faint);}
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(18,20,43,.55); backdrop-filter:blur(2px);
+    display:none; align-items:flex-start; justify-content:center; z-index:100; padding:40px 20px; overflow-y:auto;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--paper-raised); border-radius:20px; max-width:640px; width:100%;
+    padding:36px; position:relative; margin:auto;
+  }
+  .modal-close{
+    position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--line); background:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:18px; color:var(--ink-soft);
+  }
+  .modal-close:hover{border-color:var(--ink); color:var(--ink);}
+
+  /* build profile specifics */
+  .profile-cat{display:flex; gap:10px; align-items:center; margin-bottom:16px;}
+  .profile-title{font-size:28px; margin:0 0 6px; font-weight:700;}
+  .profile-tagline{font-size:15px; color:var(--ink-soft); margin:0 0 28px; line-height:1.55;}
+  .profile-block{margin-bottom:22px;}
+  .profile-block h4{
+    font-size:11.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-faint);
+    margin:0 0 8px; font-weight:600;
+  }
+  .profile-block p{font-size:14.5px; line-height:1.6; margin:0; color:var(--ink);}
+  .milestone-box{
+    background:var(--blue-wash); border-radius:14px; padding:18px 20px; margin-top:6px;
+  }
+  .milestone-box .cur{font-size:14.5px; font-weight:600; color:var(--blue-deep); margin:0 0 4px;}
+  .milestone-box .nxt{font-size:13px; color:var(--ink-soft); margin:0;}
+
+  /* form modal */
+  .field{margin-bottom:18px;}
+  .field label{font-size:13px; font-weight:600; display:block; margin-bottom:7px;}
+  .field input, .field select, .field textarea{
+    width:100%; border:1.5px solid var(--line); border-radius:10px; padding:12px 14px;
+    font-family:inherit; font-size:14.5px; color:var(--ink); background:#fff;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{outline:none; border-color:var(--blue);}
+  .field textarea{resize:vertical; min-height:70px;}
+
+  .toast{
+    position:sticky; bottom:28px; margin:0 auto; width:max-content; max-width:90vw;
+    background:var(--ink); color:#fff; padding:14px 22px; border-radius:100px; font-size:14px; font-weight:500;
+    z-index:200; transition:opacity .3s ease, transform .3s ease;
+    display:flex; align-items:center; gap:10px;
+    opacity:0; transform:translateY(12px); pointer-events:none;
+  }
+  .toast.show{opacity:1; transform:translateY(0);}
+  .toast .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow);}
+
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-thumb{background:var(--line); border-radius:10px;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <span class="brand-eco">Hillwoods News Ecosystem</span>
+      <span class="brand-name">Incubation <span class="accent">Hub</span></span>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-link hide-mobile" onclick="document.getElementById('journey').scrollIntoView()">The journey</button>
+      <button class="nav-link hide-mobile" onclick="document.getElementById('board').scrollIntoView()">Student builds</button>
+      <button class="btn btn-primary btn-sm" onclick="openIdeaForm()">Start with an idea</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow"><span class="dot"></span>An idea is only the beginning</div>
+    <h1>Have an idea?<br><span class="line2">Build it.</span></h1>
+    <p class="hero-sub">From a thought in your notebook to something people can see, test, and remember. This is where Hillwoods students turn early ideas into real, working things.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="openIdeaForm()">Start with an idea</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('board').scrollIntoView()">Explore student builds</button>
+    </div>
+    <div class="hero-strip">
+      <div><span class="num">5</span><span class="lab">stages, one journey</span></div>
+      <div><span class="num">6</span><span class="lab">demo builds on the board</span></div>
+      <div><span class="num">0</span><span class="lab">forms longer than 4 fields</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="pathway-section" id="journey">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">The path every idea takes</div>
+      <h2>Idea, build, test, grow.</h2>
+      <p>Every project on the board moves through the same five stages. It's not a form to fill in once &mdash; it's a path you actually walk.</p>
+    </div>
+    <div class="pathway-track">
+      <div class="pathway-line"><div class="pathway-line-fill" style="width:20%"></div></div>
+      <div class="pathway-nodes">
+        <div class="pathway-node done"><div class="node-dot">01</div><h3>Idea</h3><p>Write down the thought, however rough. This is the starting line, not a pitch.</p></div>
+        <div class="pathway-node"><div class="node-dot">02</div><h3>Explore</h3><p>Look into the problem. Who has it? Has someone tried this before?</p></div>
+        <div class="pathway-node"><div class="node-dot">03</div><h3>Build</h3><p>Make the first version &mdash; a sketch, a prototype, a working draft.</p></div>
+        <div class="pathway-node"><div class="node-dot">04</div><h3>Test</h3><p>Put it in front of real people. See what breaks, what lands.</p></div>
+        <div class="pathway-node"><div class="node-dot">05</div><h3>Showcase</h3><p>Show what you built. Whatever the outcome, it's now something real.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="board-section" id="board">
+  <div class="wrap">
+    <div class="board-head">
+      <div class="section-head" style="margin-bottom:0">
+        <div class="section-eyebrow">What students are building</div>
+        <h2>Built at Hillwoods.</h2>
+        <p>Demo projects showing what's possible on the board &mdash; research, products, experiments and social ideas, all moving through the same journey.</p>
+      </div>
+    </div>
+    <div class="board-grid" id="boardGrid"></div>
+  </div>
+</section>
+
+<section class="philosophy">
+  <div class="wrap">
+    <div class="phil-card">
+      <div>
+        <h2>An idea is only the beginning.</h2>
+        <p>The Incubation Hub isn't a place to submit an idea and wait. It's a direction &mdash; a way to help student ideas become visible, structured, and buildable, one stage at a time.</p>
+        <p>No idea here is judged as a finished startup. A research question, a class experiment, and an early product all belong on the same board, at the same stage: the beginning.</p>
+        <div class="roadmap-note">Future roadmap: broader mentorship, showcase events and institutional support are directions the Hub may grow toward, subject to review by Hillwoods. Nothing here represents funding, guaranteed mentorship, or a promise of outcome.</div>
+      </div>
+      <div class="phil-list">
+        <div class="phil-list-item"><span class="n">01</span><span class="t">Ideas gain visibility before they're finished.</span></div>
+        <div class="phil-list-item"><span class="n">02</span><span class="t">Progress is shown honestly, stage by stage.</span></div>
+        <div class="phil-list-item"><span class="n">03</span><span class="t">Research, products and social ideas all count as builds.</span></div>
+        <div class="phil-list-item"><span class="n">04</span><span class="t">No valuations, no funding claims &mdash; just the work.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-left">Hillwoods News Ecosystem &mdash; Incubation Hub</div>
+    <div class="footer-right">Prototype by Lavyansh Garg</div>
+  </div>
+</footer>
+
+<!-- Build profile modal -->
+<div class="overlay" id="profileOverlay">
+  <div class="modal" id="profileModal"></div>
+</div>
+
+<!-- Idea submission modal -->
+<div class="overlay" id="formOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeIdeaForm()">&times;</button>
+    <h3 style="font-size:22px; margin:0 0 6px;">Start with an idea</h3>
+    <p style="font-size:14px; color:var(--ink-soft); margin:0 0 24px;">This is a demo &mdash; nothing is saved beyond this session. Just enough to see it on the board.</p>
+    <form id="ideaFormEl" onsubmit="submitIdea(event)">
+      <div class="field">
+        <label for="f-name">Idea name</label>
+        <input id="f-name" type="text" placeholder="Give it a short, memorable name" required>
+      </div>
+      <div class="field">
+        <label for="f-category">Category</label>
+        <select id="f-category" required>
+          <option value="">Choose one</option>
+          <option value="Student Learning Tool">Student learning tool</option>
+          <option value="Science Innovation">Science innovation</option>
+          <option value="Sustainable Product">Sustainable product</option>
+          <option value="Social Impact">Social impact</option>
+          <option value="Tech Experiment">Tech experiment</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-building">What are you building?</label>
+        <textarea id="f-building" placeholder="Describe it in a sentence or two" required></textarea>
+      </div>
+      <div class="field">
+        <label for="f-problem">What problem does it explore?</label>
+        <textarea id="f-problem" placeholder="What's the question or gap behind it?" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Put it on the board</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg">Added to the board</span></div>
+
+<script>
+const STAGES = ["Idea","Explore","Build","Test","Showcase"];
+const CAT_STYLE = {
+  "Student Learning Tool":"cat-blue",
+  "Science Innovation":"cat-teal",
+  "Sustainable Product":"cat-yellow",
+  "Social Impact":"cat-coral",
+  "Tech Experiment":"cat-violet"
+};
+
+let projects = [
+  {
+    name:"StudyFlow", category:"Student Learning Tool", stage:2, builder:"Student Builder",
+    tagline:"An early student project exploring a better way to organise revision.",
+    problem:"Students juggle notes across notebooks, apps and messages, and revision plans fall apart before exams.",
+    building:"A simple weekly planner that turns a syllabus into a day-by-day revision schedule.",
+    milestoneCurrent:"Build the first working prototype", milestoneNext:"Test with 10 students"
+  },
+  {
+    name:"AquaCheck", category:"Science Innovation", stage:3, builder:"Young Researcher",
+    tagline:"A low-cost water monitoring device for checking basic water safety at school.",
+    problem:"Simple water quality checks usually need lab equipment students don't have access to.",
+    building:"A low-cost sensor kit that flags unsafe water using basic, affordable parts.",
+    milestoneCurrent:"Run accuracy tests against known samples", milestoneNext:"Share findings with the science department"
+  },
+  {
+    name:"EcoDesk", category:"Sustainable Product", stage:1, builder:"Project Team",
+    tagline:"A sustainable school desk organiser made from reused classroom materials.",
+    problem:"Usable classroom waste like cardboard and offcuts is thrown away instead of reused.",
+    building:"A modular desk organiser students can assemble from recycled material.",
+    milestoneCurrent:"Research usable waste materials in school", milestoneNext:"Sketch the first design"
+  },
+  {
+    name:"TapTalk", category:"Social Impact", stage:2, builder:"Student Creator",
+    tagline:"A child-friendly accessibility project for students who communicate non-verbally.",
+    problem:"Some younger students need a simple, low-pressure way to express basic needs in class.",
+    building:"A picture-based tapping board that speaks short phrases out loud.",
+    milestoneCurrent:"Build a working tap-to-speak board", milestoneNext:"Trial it with one classroom"
+  },
+  {
+    name:"PixelPaper", category:"Tech Experiment", stage:0, builder:"Student Builder",
+    tagline:"A student-built experiment turning class notes into simple generative sketches.",
+    problem:"Revision notes are text-heavy, and it's hard to remember pages of dense writing.",
+    building:"A small tool that turns keywords from notes into simple visual sketches.",
+    milestoneCurrent:"Write down the core idea and rough approach", milestoneNext:"Explore how similar tools work"
+  },
+  {
+    name:"CampusVoice", category:"Social Impact", stage:4, builder:"Project Team",
+    tagline:"An anonymous peer-support board where students can ask for help without pressure.",
+    problem:"Students often hesitate to ask for help publicly, even over small things.",
+    building:"A moderated, anonymous board for asking and answering everyday school questions.",
+    milestoneCurrent:"Presented the finished board to a student group", milestoneNext:"Gather feedback for a second version"
+  }
+];
+
+function stageBar(current){
+  return STAGES.map((s,i)=>{
+    let mark = i<current ? "&#10003;" : (i===current ? "&#9679;" : "&#9675;");
+    return '<span style="margin-right:14px; white-space:nowrap;">'+mark+' '+s+'</span>';
+  }).join("");
+}
+
+function renderBoard(){
+  const grid = document.getElementById('boardGrid');
+  grid.innerHTML = projects.map((p,idx)=>{
+    const catClass = CAT_STYLE[p.category] || "cat-blue";
+    return `<div class="idea-card" onclick="openProfile(${idx})">
+      <div class="card-top">
+        <span class="cat-badge ${catClass}">${p.category}</span>
+        <span class="stage-badge mono">${STAGES[p.stage].toUpperCase()}</span>
+      </div>
+      <h3>${p.name}</h3>
+      <p class="tagline">${p.tagline}</p>
+      <div class="card-bottom">
+        <div>
+          <div class="builder-type">${p.builder}</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="demo-tag">Demo project</span>
+          <span class="view-build">View build &rarr;</span>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function openProfile(idx){
+  const p = projects[idx];
+  const catClass = CAT_STYLE[p.category] || "cat-blue";
+  document.getElementById('profileModal').innerHTML = `
+    <button class="modal-close" onclick="closeProfile()">&times;</button>
+    <div class="profile-cat">
+      <span class="cat-badge ${catClass}">${p.category}</span>
+      <span class="demo-tag">Demo project</span>
+    </div>
+    <h2 class="profile-title">${p.name}</h2>
+    <p class="profile-tagline">${p.tagline}</p>
+    <div class="profile-block">
+      <h4>Journey</h4>
+      <p class="mono" style="font-size:13px;">${stageBar(p.stage)}</p>
+    </div>
+    <div class="profile-block">
+      <h4>What problem it explores</h4>
+      <p>${p.problem}</p>
+    </div>
+    <div class="profile-block">
+      <h4>What's being built</h4>
+      <p>${p.building}</p>
+    </div>
+    <div class="profile-block">
+      <h4>Builder</h4>
+      <p>${p.builder}</p>
+    </div>
+    <div class="profile-block" style="margin-bottom:0;">
+      <h4>Milestones</h4>
+      <div class="milestone-box">
+        <p class="cur">Current: ${p.milestoneCurrent}</p>
+        <p class="nxt">Next: ${p.milestoneNext}</p>
+      </div>
+    </div>
+  `;
+  document.getElementById('profileOverlay').classList.add('open');
+}
+function closeProfile(){ document.getElementById('profileOverlay').classList.remove('open'); }
+
+function openIdeaForm(){ document.getElementById('formOverlay').classList.add('open'); }
+function closeIdeaForm(){ document.getElementById('formOverlay').classList.remove('open'); }
+
+function submitIdea(e){
+  e.preventDefault();
+  const name = document.getElementById('f-name').value.trim();
+  const category = document.getElementById('f-category').value;
+  const building = document.getElementById('f-building').value.trim();
+  const problem = document.getElementById('f-problem').value.trim();
+  projects.unshift({
+    name: name, category: category, stage: 0, builder: "Student Builder",
+    tagline: building,
+    problem: problem,
+    building: building,
+    milestoneCurrent: "Write down the core idea and rough approach",
+    milestoneNext: "Explore how similar ideas or projects work"
+  });
+  renderBoard();
+  document.getElementById('ideaFormEl').reset();
+  closeIdeaForm();
+  showToast("Added to the board as a new idea");
+  document.getElementById('board').scrollIntoView({behavior:"smooth"});
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+document.getElementById('profileOverlay').addEventListener('click', function(e){
+  if(e.target === this) closeProfile();
+});
+document.getElementById('formOverlay').addEventListener('click', function(e){
+  if(e.target === this) closeIdeaForm();
+});
+
+renderBoard();
+</script>
+</body>
+</html>
