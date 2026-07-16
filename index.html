@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Safeguard & Complaint Review Framework — Hillwoods News Ecosystem</title>
+<style>
+  :root{
+    --ink:#16202B;
+    --ink-soft:#28343F;
+    --paper:#F3F6F5;
+    --panel:#FFFFFF;
+    --line:#DEE4E3;
+    --line-soft:#EAEEED;
+    --muted:#5B6B70;
+    --muted-2:#8A9598;
+    --teal:#2F6F68;
+    --teal-deep:#1F5750;
+    --teal-tint:#E7F0EF;
+    --amber:#B9862F;
+    --amber-deep:#8A5A17;
+    --amber-tint:#F8EFDC;
+    --green:#3F7A5B;
+    --green-tint:#E8F1EA;
+    --slate-tint:#EEF1F0;
+    --rose:#A6432F;
+    --rose-tint:#F6E8E4;
+    --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+  }
+  .topbar-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;max-width:1180px;margin:0 auto;
+    gap:16px;flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:8px;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .brand-mark svg{width:20px;height:20px;}
+  .brand-text .eyebrow{
+    font-family:var(--mono);
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  .brand-text .name{
+    font-family:var(--serif);
+    font-size:17px;font-weight:700;color:var(--ink);
+    letter-spacing:.01em;
+  }
+  .role-badge{
+    font-family:var(--mono);font-size:11.5px;color:var(--muted);
+    border:1px solid var(--line);padding:6px 12px;border-radius:20px;
+    background:var(--slate-tint);white-space:nowrap;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:44px 0 8px;}
+  .hero-eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal-deep);margin-bottom:10px;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-size:clamp(30px,4vw,42px);
+    margin:0 0 14px;
+    color:var(--ink);
+    letter-spacing:-.01em;
+    max-width:720px;
+  }
+  .hero p{
+    max-width:640px;
+    color:var(--muted);
+    font-size:15.5px;
+    margin:0 0 4px;
+  }
+
+  /* ---------- Principles band (balance: student / process / teacher) ---------- */
+  .principles{
+    display:grid;grid-template-columns:1fr 1fr 1fr;
+    gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:12px;
+    overflow:hidden;margin:34px 0 8px;
+  }
+  .principle{background:var(--panel);padding:22px 24px;}
+  .principle .p-label{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    margin-bottom:10px;display:flex;align-items:center;gap:8px;
+  }
+  .p-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+  .principle.student .p-label{color:var(--teal-deep);}
+  .principle.student .p-dot{background:var(--teal);}
+  .principle.process .p-label{color:var(--ink-soft);}
+  .principle.process .p-dot{background:var(--ink);}
+  .principle.teacher .p-label{color:var(--amber-deep);}
+  .principle.teacher .p-dot{background:var(--amber);}
+  .principle h3{
+    font-family:var(--serif);font-size:16.5px;margin:0 0 8px;color:var(--ink);
+  }
+  .principle p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55;}
+
+  /* ---------- Stat cards ---------- */
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px 0;
+  }
+  .stat-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;cursor:pointer;text-align:left;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .stat-card:hover{border-color:var(--muted-2);transform:translateY(-1px);}
+  .stat-card:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .stat-card.active-filter{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);}
+  .stat-num{font-family:var(--serif);font-size:32px;color:var(--ink);line-height:1;}
+  .stat-label{font-size:12.5px;color:var(--muted);margin-top:8px;}
+
+  /* ---------- Section headers ---------- */
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin:44px 0 16px;flex-wrap:wrap;gap:10px;
+  }
+  .section-head h2{
+    font-family:var(--serif);font-size:20px;margin:0;color:var(--ink);
+  }
+  .section-sub{font-size:12.5px;color:var(--muted-2);}
+
+  /* ---------- Filters ---------- */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .filter-pill{
+    font-family:var(--mono);font-size:11.5px;
+    border:1px solid var(--line);background:var(--panel);
+    padding:7px 13px;border-radius:20px;cursor:pointer;color:var(--muted);
+    transition:all .12s ease;
+  }
+  .filter-pill:hover{border-color:var(--muted-2);color:var(--ink);}
+  .filter-pill.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .filter-pill:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+
+  /* ---------- Case grid ---------- */
+  .case-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;
+  }
+  .case-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:18px;text-align:left;cursor:pointer;width:100%;
+    display:flex;flex-direction:column;gap:12px;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .case-card:hover{border-color:var(--muted-2);transform:translateY(-1px);}
+  .case-card:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .case-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .case-id{font-family:var(--mono);font-size:12.5px;color:var(--muted);}
+  .attention-flag{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--rose);background:var(--rose-tint);padding:3px 8px;border-radius:10px;
+  }
+  .case-cat{font-family:var(--serif);font-size:15.5px;color:var(--ink);margin:0;}
+  .case-meta{font-size:12px;color:var(--muted-2);}
+  .status-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.03em;
+    padding:6px 10px;border-radius:8px;width:fit-content;
+  }
+  .status-badge .dot{width:6px;height:6px;border-radius:50%;}
+  .progress-track{height:4px;border-radius:3px;background:var(--line-soft);overflow:hidden;}
+  .progress-fill{height:100%;background:var(--teal);border-radius:3px;}
+  .progress-label{font-size:11px;color:var(--muted-2);margin-top:6px;}
+
+  /* ---------- Two-column lower section ---------- */
+  .lower{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-top:8px;}
+  .card-block{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;
+  }
+  .card-block h3{font-family:var(--serif);font-size:17px;margin:0 0 4px;}
+  .card-block .sub{font-size:12.5px;color:var(--muted-2);margin-bottom:16px;}
+  .indicator-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:11px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;
+  }
+  .indicator-row:last-child{border-bottom:none;}
+  .indicator-count{font-family:var(--mono);font-size:12.5px;color:var(--muted);background:var(--slate-tint);padding:3px 9px;border-radius:12px;}
+  .activity-item{
+    padding:12px 0;border-bottom:1px solid var(--line-soft);
+  }
+  .activity-item:last-child{border-bottom:none;}
+  .activity-item .a-top{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted-2);margin-bottom:4px;font-family:var(--mono);}
+  .activity-item .a-text{font-size:13.5px;color:var(--ink-soft);}
+
+  /* ---------- Footer note ---------- */
+  .footnote{
+    margin:48px 0 60px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--muted-2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+
+  /* ---------- Modal ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(22,32,43,.55);
+    display:none;align-items:flex-start;justify-content:center;
+    padding:40px 20px;overflow-y:auto;z-index:100;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);border-radius:16px;max-width:720px;width:100%;
+    padding:0;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal-head{
+    padding:26px 28px 20px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
+  }
+  .modal-head .m-id{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:6px;}
+  .modal-head h2{font-family:var(--serif);font-size:22px;margin:0;color:var(--ink);}
+  .close-btn{
+    background:var(--slate-tint);border:1px solid var(--line);border-radius:8px;
+    width:32px;height:32px;flex-shrink:0;cursor:pointer;font-size:16px;color:var(--muted);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .close-btn:hover{color:var(--ink);border-color:var(--muted-2);}
+  .modal-body{padding:24px 28px 30px;}
+
+  .stepper{display:flex;gap:0;margin:8px 0 26px;}
+  .step{flex:1;text-align:center;position:relative;}
+  .step .step-dot{
+    width:22px;height:22px;border-radius:50%;background:var(--line-soft);border:2px solid var(--line);
+    margin:0 auto 8px;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:10px;color:var(--muted-2);position:relative;z-index:2;
+    background-color:var(--panel);
+  }
+  .step.done .step-dot{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .step.current .step-dot{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .step .step-line{
+    position:absolute;top:11px;left:-50%;width:100%;height:2px;background:var(--line);z-index:1;
+  }
+  .step:first-child .step-line{display:none;}
+  .step.done .step-line, .step.current .step-line{background:var(--teal);}
+  .step .step-label{font-size:10.5px;color:var(--muted-2);line-height:1.3;padding:0 3px;}
+  .step.current .step-label{color:var(--ink);font-weight:600;}
+
+  .triad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:24px;}
+  .triad-cell{background:var(--panel);padding:16px;}
+  .triad-cell .t-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);margin-bottom:8px;}
+  .triad-cell .t-value{font-size:13.5px;color:var(--ink);line-height:1.5;}
+
+  .m-section{margin-bottom:22px;}
+  .m-section h4{font-family:var(--serif);font-size:15px;margin:0 0 4px;}
+  .m-section .m-sub{font-size:12.5px;color:var(--muted-2);margin-bottom:10px;}
+  .m-section p.expl{font-size:13px;color:var(--muted);line-height:1.6;background:var(--slate-tint);padding:12px 14px;border-radius:8px;margin:0 0 10px;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-size:12px;border:1px solid var(--line);border-radius:16px;padding:6px 12px;color:var(--ink-soft);background:var(--panel);
+  }
+  .kv-row{display:flex;justify-content:space-between;font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--line-soft);}
+  .kv-row:last-child{border-bottom:none;}
+  .kv-row .k{color:var(--muted-2);}
+  .kv-row .v{color:var(--ink);font-weight:500;}
+
+  .protect-note{
+    margin-top:6px;font-size:12.5px;color:var(--teal-deep);background:var(--teal-tint);
+    padding:12px 14px;border-radius:8px;line-height:1.55;
+  }
+
+  @media (max-width:860px){
+    .principles{grid-template-columns:1fr;}
+    .stats{grid-template-columns:1fr 1fr;}
+    .lower{grid-template-columns:1fr;}
+    .triad{grid-template-columns:1fr;}
+  }
+  @media (max-width:520px){
+    .stats{grid-template-columns:1fr 1fr;}
+    .wrap{padding:0 16px;}
+    .step .step-label{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3L4 6.5V11C4 16 7.4 20.3 12 21.5C16.6 20.3 20 16 20 11V6.5L12 3Z" stroke="#F3F6F5" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9 12L11 14L15.5 9.5" stroke="#F3F6F5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="eyebrow">Hillwoods News Ecosystem</div>
+        <div class="name">Teacher Safeguard</div>
+      </div>
+    </div>
+    <div class="role-badge">Reviewer Console · Demo Access</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Complaint Review Framework — Conceptual Prototype</div>
+    <h1>A structured review process, not an automatic finding.</h1>
+    <p>Every complaint is treated as a report requiring review. This framework protects students from genuine institutional problems while giving teachers a fair, procedural path before any institutional conclusion is reached.</p>
+  </div>
+
+  <div class="principles">
+    <div class="principle student">
+      <div class="p-label"><span class="p-dot"></span>Student Protection</div>
+      <h3>Every report is taken seriously</h3>
+      <p>Complaints are logged and reviewed on receipt. No report is dismissed without going through the review process, and student identities are kept confidential throughout.</p>
+    </div>
+    <div class="principle process">
+      <div class="p-label"><span class="p-dot"></span>Review Process</div>
+      <h3>A defined path from report to decision</h3>
+      <p>Each case moves through initial review, information verification, and structured assessment before any institutional finding is recorded.</p>
+    </div>
+    <div class="principle teacher">
+      <div class="p-label"><span class="p-dot"></span>Teacher Procedural Fairness</div>
+      <h3>A complaint is not a conclusion</h3>
+      <p>A report describes an allegation, not an established fact. Teachers are given a defined opportunity to respond before any institutional review is finalised.</p>
+    </div>
+  </div>
+
+  <div class="stats" id="statCards"></div>
+
+  <div class="section-head">
+    <h2>Complaint Cases</h2>
+    <div class="section-sub">Demo data · identities anonymised</div>
+  </div>
+
+  <div class="filters" id="filterBar"></div>
+  <div class="case-grid" id="caseGrid"></div>
+
+  <div class="lower">
+    <div class="card-block">
+      <h3>Review Indicators</h3>
+      <div class="sub">Institutional context used to inform review attention — not a guilt determination.</div>
+      <div id="indicatorList"></div>
+    </div>
+    <div class="card-block">
+      <h3>Recent Review Activity</h3>
+      <div class="sub">Latest movement across the case list.</div>
+      <div id="activityList"></div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    <span>Prototype created by Lavyansh Garg · Hillwoods News Ecosystem</span>
+    <span>Conceptual future prototype — demo data only, no real cases or identities.</span>
+  </div>
+
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script>
+/* ---------------- Data ---------------- */
+const STAGES = [
+  "Report Received",
+  "Initial Review",
+  "Evidence / Information Review",
+  "Teacher Response Opportunity",
+  "Structured Review Status",
+  "Institutional Review"
+];
+
+const STATUS_STYLE = {
+  "Report Received":            {bg:"var(--slate-tint)", fg:"#516066", dot:"#8FA3A8"},
+  "Initial Review":             {bg:"var(--teal-tint)",  fg:"var(--teal-deep)", dot:"var(--teal)"},
+  "Awaiting Information":       {bg:"var(--amber-tint)", fg:"var(--amber-deep)", dot:"var(--amber)"},
+  "Under Verification":         {bg:"var(--teal-tint)",  fg:"var(--teal-deep)", dot:"var(--teal-deep)"},
+  "Teacher Response Available": {bg:"var(--amber-tint)", fg:"var(--amber-deep)", dot:"var(--amber-deep)"},
+  "Institutional Review":       {bg:"var(--ink)",        fg:"#fff", dot:"var(--amber)"},
+  "Review Completed":           {bg:"var(--green-tint)", fg:"var(--green)", dot:"var(--green)"}
+};
+
+const CASES = [
+  {id:"HWR-1024", category:"Student Conduct Concern", teacher:"Teacher A", date:"14 May 2026", status:"Under Verification", stage:2, attention:false,
+   verification:"In progress — supporting information being gathered.",
+   teacherResponse:{status:"Response Requested", note:"Teacher has been notified and invited to provide context."},
+   indicators:["First report on file for this teacher","Verification in progress"],
+   institutional:"Pending — awaiting completion of verification stage."},
+
+  {id:"HWR-1025", category:"Classroom Environment Report", teacher:"Teacher B", date:"2 Jun 2026", status:"Report Received", stage:0, attention:false,
+   verification:"Not yet started — case newly logged.",
+   teacherResponse:{status:"Not Yet Available", note:"Response stage has not been reached."},
+   indicators:["First report on file for this teacher"],
+   institutional:"Not applicable at this stage."},
+
+  {id:"HWR-1031", category:"Communication Concern", teacher:"Teacher C", date:"28 May 2026", status:"Initial Review", stage:1, attention:false,
+   verification:"Initial review of the report is underway.",
+   teacherResponse:{status:"Not Yet Available", note:"Response stage has not been reached."},
+   indicators:["First report on file for this teacher"],
+   institutional:"Not applicable at this stage."},
+
+  {id:"HWR-1033", category:"Grading Process Query", teacher:"Teacher A", date:"19 May 2026", status:"Awaiting Information", stage:2, attention:false,
+   verification:"Additional information requested from the reporting student.",
+   teacherResponse:{status:"Not Yet Available", note:"Awaiting information before response is requested."},
+   indicators:["Second report connected to this category, different term","Verification pending"],
+   institutional:"Not applicable at this stage."},
+
+  {id:"HWR-1038", category:"Assessment Fairness Concern", teacher:"Teacher D", date:"9 May 2026", status:"Teacher Response Available", stage:3, attention:false,
+   verification:"Verification completed — findings passed to response stage.",
+   teacherResponse:{status:"Response Submitted", note:"Teacher has submitted a written response, now under review."},
+   indicators:["Verification completed"],
+   institutional:"Pending — awaiting structured review status."},
+
+  {id:"HWR-1041", category:"Behavioural Interaction Report", teacher:"Teacher E", date:"30 Apr 2026", status:"Institutional Review", stage:5, attention:true,
+   verification:"Verification completed.",
+   teacherResponse:{status:"Response Under Review", note:"Teacher response has been submitted and is being considered."},
+   indicators:["Repeated reports in a similar time period","Previous review completed for a separate matter","Verification completed"],
+   institutional:"In progress — case referred to authorised institutional review."},
+
+  {id:"HWR-1044", category:"Facility / Safety Observation", teacher:"Teacher B", date:"12 Apr 2026", status:"Review Completed", stage:5, attention:false,
+   verification:"Verification completed.",
+   teacherResponse:{status:"Response Submitted", note:"Response was reviewed as part of the process."},
+   indicators:["Verification completed","Previous review completed"],
+   institutional:"Review completed by authorised reviewer. Outcome recorded in the closed case file."},
+
+  {id:"HWR-1046", category:"Policy Compliance Query", teacher:"Teacher F", date:"3 Apr 2026", status:"Review Completed", stage:5, attention:false,
+   verification:"Verification completed.",
+   teacherResponse:{status:"Response Submitted", note:"Response was reviewed as part of the process."},
+   indicators:["Verification completed"],
+   institutional:"Review completed by authorised reviewer. Outcome recorded in the closed case file."},
+
+  {id:"HWR-1049", category:"Student Conduct Concern", teacher:"Teacher C", date:"20 Jun 2026", status:"Awaiting Information", stage:2, attention:false,
+   verification:"Additional supporting information requested.",
+   teacherResponse:{status:"Not Yet Available", note:"Awaiting information before response is requested."},
+   indicators:["Verification pending"],
+   institutional:"Not applicable at this stage."},
+
+  {id:"HWR-1052", category:"Classroom Environment Report", teacher:"Teacher A", date:"24 Jun 2026", status:"Under Verification", stage:2, attention:true,
+   verification:"In progress — cross-checking with prior related report.",
+   teacherResponse:{status:"Response Requested", note:"Teacher has been notified and invited to provide context."},
+   indicators:["Third report connected to this teacher within the term","Verification in progress"],
+   institutional:"Pending — awaiting completion of verification stage."},
+
+  {id:"HWR-1055", category:"Communication Concern", teacher:"Teacher G", date:"15 Mar 2026", status:"Review Completed", stage:5, attention:false,
+   verification:"Verification completed.",
+   teacherResponse:{status:"Response Submitted", note:"Response was reviewed as part of the process."},
+   indicators:["Verification completed"],
+   institutional:"Review completed by authorised reviewer. Outcome recorded in the closed case file."},
+
+  {id:"HWR-1058", category:"Assessment Fairness Concern", teacher:"Teacher D", date:"27 Jun 2026", status:"Initial Review", stage:1, attention:false,
+   verification:"Initial review of the report is underway.",
+   teacherResponse:{status:"Not Yet Available", note:"Response stage has not been reached."},
+   indicators:["Second report connected to this teacher, different category"],
+   institutional:"Not applicable at this stage."}
+];
+
+const ACTIVITY = [
+  {when:"Today, 9:14 AM", text:"Case HWR-1052 moved to Under Verification."},
+  {when:"Yesterday, 4:02 PM", text:"Teacher response submitted for Case HWR-1038."},
+  {when:"Yesterday, 11:20 AM", text:"Case HWR-1046 review completed and closed."},
+  {when:"2 days ago", text:"Case HWR-1041 referred to institutional review."},
+  {when:"3 days ago", text:"Case HWR-1033 marked Awaiting Information."}
+];
+
+/* ---------------- Derived stats ---------------- */
+function computeStats(){
+  const active = CASES.filter(c => ["Initial Review","Under Verification","Institutional Review"].includes(c.status)).length;
+  const awaiting = CASES.filter(c => c.status === "Awaiting Information").length;
+  const teacherResp = CASES.filter(c => c.status === "Teacher Response Available" || c.teacherResponse.status === "Response Submitted" || c.teacherResponse.status === "Response Under Review").length;
+  const completed = CASES.filter(c => c.status === "Review Completed").length;
+  return [
+    {key:"active", label:"Active Reviews", num:active, statuses:["Initial Review","Under Verification","Institutional Review"]},
+    {key:"awaiting", label:"Awaiting Information", num:awaiting, statuses:["Awaiting Information"]},
+    {key:"teacher", label:"Teacher Responses", num:teacherResp, statuses:["Teacher Response Available"]},
+    {key:"completed", label:"Completed Reviews", num:completed, statuses:["Review Completed"]}
+  ];
+}
+
+/* ---------------- State ---------------- */
+let activeStatusFilter = "All";
+let activeStatCard = null;
+
+/* ---------------- Render: stat cards ---------------- */
+function renderStats(){
+  const el = document.getElementById("statCards");
+  const stats = computeStats();
+  el.innerHTML = stats.map(s => `
+    <button class="stat-card ${activeStatCard===s.key ? 'active-filter':''}" data-statkey="${s.key}">
+      <div class="stat-num">${s.num}</div>
+      <div class="stat-label">${s.label}</div>
+    </button>
+  `).join("");
+  el.querySelectorAll(".stat-card").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.dataset.statkey;
+      if(activeStatCard === key){
+        activeStatCard = null; activeStatusFilter = "All";
+      } else {
+        activeStatCard = key;
+        const s = stats.find(x=>x.key===key);
+        activeStatusFilter = "__multi__" + s.statuses.join("|");
+      }
+      renderAll();
+    });
+  });
+}
+
+/* ---------------- Render: filter pills ---------------- */
+const ALL_STATUSES = ["All", ...Object.keys(STATUS_STYLE)];
+function renderFilters(){
+  const el = document.getElementById("filterBar");
+  el.innerHTML = ALL_STATUSES.map(s=>{
+    const isOn = (activeStatusFilter === s) || (activeStatusFilter === "All" && s === "All");
+    return `<button class="filter-pill ${isOn?'on':''}" data-status="${s}">${s}</button>`;
+  }).join("");
+  el.querySelectorAll(".filter-pill").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      activeStatusFilter = btn.dataset.status;
+      activeStatCard = null;
+      renderAll();
+    });
+  });
+}
+
+/* ---------------- Render: case grid ---------------- */
+function matchesFilter(c){
+  if(activeStatusFilter === "All") return true;
+  if(activeStatusFilter.startsWith("__multi__")){
+    const list = activeStatusFilter.replace("__multi__","").split("|");
+    return list.includes(c.status);
+  }
+  return c.status === activeStatusFilter;
+}
+
+function renderCases(){
+  const el = document.getElementById("caseGrid");
+  const filtered = CASES.filter(matchesFilter);
+  if(filtered.length === 0){
+    el.innerHTML = `<div style="grid-column:1/-1;color:var(--muted-2);font-size:13.5px;padding:30px 0;">No cases currently match this view.</div>`;
+    return;
+  }
+  el.innerHTML = filtered.map(c=>{
+    const st = STATUS_STYLE[c.status];
+    const pct = Math.round(((c.stage+1)/STAGES.length)*100);
+    return `
+    <button class="case-card" data-id="${c.id}">
+      <div class="case-top">
+        <span class="case-id">${c.id}</span>
+        ${c.attention ? '<span class="attention-flag">Elevated Attention</span>' : ''}
+      </div>
+      <div>
+        <p class="case-cat">${c.category}</p>
+        <div class="case-meta">Report Received: ${c.date}</div>
+      </div>
+      <span class="status-badge" style="background:${st.bg};color:${st.fg}">
+        <span class="dot" style="background:${st.dot}"></span>${c.status}
+      </span>
+      <div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="progress-label">Stage ${c.stage+1} of ${STAGES.length} — ${STAGES[c.stage]}</div>
+      </div>
+    </button>`;
+  }).join("");
+  el.querySelectorAll(".case-card").forEach(btn=>{
+    btn.addEventListener("click", ()=> openModal(btn.dataset.id));
+  });
+}
+
+/* ---------------- Render: review indicators overview ---------------- */
+function renderIndicatorOverview(){
+  const el = document.getElementById("indicatorList");
+  const counts = {};
+  CASES.forEach(c => c.indicators.forEach(i=>{
+    const key = i.replace(/^(First|Second|Third)\s/,'').replace(/,.*$/,'');
+    counts[key] = (counts[key]||0)+1;
+  }));
+  const rows = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  el.innerHTML = rows.map(([label,count])=>`
+    <div class="indicator-row">
+      <span>${label}</span>
+      <span class="indicator-count">${count} case${count>1?'s':''}</span>
+    </div>
+  `).join("");
+}
+
+/* ---------------- Render: activity ---------------- */
+function renderActivity(){
+  const el = document.getElementById("activityList");
+  el.innerHTML = ACTIVITY.map(a=>`
+    <div class="activity-item">
+      <div class="a-top"><span>${a.when}</span></div>
+      <div class="a-text">${a.text}</div>
+    </div>
+  `).join("");
+}
+
+/* ---------------- Modal ---------------- */
+function openModal(id){
+  const c = CASES.find(x=>x.id===id);
+  if(!c) return;
+  const st = STATUS_STYLE[c.status];
+  const modal = document.getElementById("modalBody");
+  modal.innerHTML = `
+    <div class="modal-head">
+      <div>
+        <div class="m-id">${c.id} · ${c.date}</div>
+        <h2>${c.category}</h2>
+      </div>
+      <button class="close-btn" id="closeModalBtn" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <span class="status-badge" style="background:${st.bg};color:${st.fg};margin-bottom:22px;">
+        <span class="dot" style="background:${st.dot}"></span>${c.status}
+      </span>
+
+      <div class="stepper">
+        ${STAGES.map((label,i)=>`
+          <div class="step ${i<c.stage?'done':''} ${i===c.stage?'current':''}">
+            <div class="step-line"></div>
+            <div class="step-dot">${i<c.stage?'✓':i+1}</div>
+            <div class="step-label">${label}</div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="triad">
+        <div class="triad-cell">
+          <div class="t-label">Report</div>
+          <div class="t-value">A ${c.category.toLowerCase()} was submitted and logged as a report requiring review.</div>
+        </div>
+        <div class="triad-cell">
+          <div class="t-label">Review</div>
+          <div class="t-value">${c.verification}</div>
+        </div>
+        <div class="triad-cell">
+          <div class="t-label">Institutional Finding</div>
+          <div class="t-value">${c.institutional}</div>
+        </div>
+      </div>
+
+      <div class="m-section">
+        <h4>Structured Review Status</h4>
+        <p class="expl">A complaint is initially treated as a report requiring review. The system does not automatically treat the existence of a complaint as an established institutional finding.</p>
+        <div class="kv-row"><span class="k">Current status</span><span class="v">${c.status}</span></div>
+        <div class="kv-row"><span class="k">Verification</span><span class="v">${c.verification}</span></div>
+      </div>
+
+      <div class="m-section">
+        <h4>Review Indicators</h4>
+        <div class="m-sub">Institutional context, not a determination of responsibility.</div>
+        <div class="chip-row">
+          ${c.indicators.map(i=>`<span class="chip">${i}</span>`).join("")}
+        </div>
+      </div>
+
+      <div class="m-section">
+        <h4>Teacher Response Opportunity</h4>
+        <div class="m-sub">Status: ${c.teacherResponse.status}</div>
+        <p class="expl" style="margin-bottom:0;">${c.teacherResponse.note} Teacher participation in the review process may depend on the nature of the complaint and applicable institutional policy.</p>
+      </div>
+
+      <div class="protect-note">
+        This framework is designed to protect students from genuine institutional problems while maintaining procedural fairness during review. The reporting student's identity remains confidential throughout this process.
+      </div>
+    </div>
+  `;
+  document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+  document.getElementById("overlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeModal(){
+  document.getElementById("overlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.getElementById("overlay").addEventListener("click", (e)=>{
+  if(e.target.id === "overlay") closeModal();
+});
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape") closeModal();
+});
+
+/* ---------------- Init ---------------- */
+function renderAll(){
+  renderStats();
+  renderFilters();
+  renderCases();
+}
+renderAll();
+renderIndicatorOverview();
+renderActivity();
+</script>
+</body>
+</html>
